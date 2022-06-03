@@ -15,28 +15,33 @@ function App() {
   )
 }
 
-let cache: any = {}
+let cache: { promise?: Promise<void>; done?: true } = {}
 function LazyComponent() {
   console.log('<LazyComponent/>')
+
+  // Doesn't work:
   const id = useId()
-  console.log('id: ' + id)
-  let entry = cache[id]
-  console.log('entry: ' + entry)
+  // Works:
+  //const id = 'some-static-id'
 
-  if (entry?.promise) throw entry.promise
+  let entry = (cache[id] ??= {})
+  console.log('id: ', id)
+  console.log('entry: ', entry)
 
-  if (!entry) {
-    entry = cache[id] ??= {}
+  if (entry.promise) {
+    throw entry.promise
+  } else if (!entry.done) {
     let resolve: Function
     const promise = new Promise((r) => (resolve = r))
+    entry.promise = promise
     setTimeout(() => {
       delete cache[id].promise
       cache[id].done = true
       resolve()
     }, 2000)
-    cache[id].promise = promise
+    console.log('promise: ', promise)
     throw promise
   }
 
-  return <>hello</>
+  return <p>Hello</p>
 }
