@@ -20,9 +20,9 @@ function LazyComponent() {
   console.log('<LazyComponent/>')
 
   // Doesn't work:
-  // const id = useId()
+  const id = useId()
   // Works:
-  const id = 'some-static-id'
+  //const id = 'some-static-id'
 
   let entry = (cache[id] ??= {})
   console.log('id: ', id)
