@@ -25,8 +25,8 @@ function LazyComponent() {
   //const id = 'some-static-id'
 
   let entry = (cache[id] ??= {})
-  console.log('id: ', id)
-  console.log('entry: ', entry)
+  console.log('id:', id)
+  console.log('entry:', entry)
 
   if (entry.promise) {
     throw entry.promise
@@ -39,7 +39,7 @@ function LazyComponent() {
       cache[id].done = true
       resolve()
     }, 2000)
-    console.log('promise: ', promise)
+    console.log('promise:', promise)
     throw promise
   }
 
